@@ -18,19 +18,24 @@ class Board extends React.Component {
     };
   }
 
-  getWinner() {
+  calculateWinner() {
     // 0,1,2
     // 3,4,5
     // 6,7,8
     const winningIndices = [
+      // horizontal
       [0, 1, 2],
-      [0, 4, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 4, 6],
-      [2, 5, 8],
       [3, 4, 5],
       [6, 7, 8],
+
+      // vertical
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+
+      // diagonal
+      [0, 4, 8],
+      [2, 4, 6],
     ];
 
     for (let indexLine of winningIndices) {
@@ -43,14 +48,16 @@ class Board extends React.Component {
   }
 
   handleClick(i) {
-    if (this.state.squares[i] === null) {
-      const squares = this.state.squares.slice();
-      squares[i] = this.state.nextPlayer;
-      this.setState({
-        nextPlayer: this.state.nextPlayer === 'X' ? 'O' : 'X',
-        squares: squares,
-      });
+    if (this.calculateWinner() || this.state.squares[i]) {
+      return;
     }
+
+    const squares = this.state.squares.slice();
+    squares[i] = this.state.nextPlayer;
+    this.setState({
+      nextPlayer: this.state.nextPlayer === 'X' ? 'O' : 'X',
+      squares: squares,
+    });
   }
 
   renderSquare(i) {
@@ -63,9 +70,9 @@ class Board extends React.Component {
   }
 
   render() {
-    let winner = this.getWinner();
+    let winner = this.calculateWinner();
     let status;
-    if (winner === null) {
+    if (!winner) {
       status = `Next player: ${this.state.nextPlayer}`;
     } else {
       status = `Winner: ${winner}`;
