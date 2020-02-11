@@ -52,6 +52,7 @@ class Game extends React.Component {
           nextPlayer: 'X',
         },
       ],
+      currentMoveIndex: 0,
     };
   }
 
@@ -86,51 +87,48 @@ class Game extends React.Component {
 
   handleClick(i) {
     const history = this.state.history;
-    const current = history[history.length - 1];
-    const squares = current.squares.slice();
+    const currentBoardState = history[this.state.currentMoveIndex];
+    const squares = currentBoardState.squares.slice();
 
     if (this.calculateWinner(squares) || squares[i]) {
       return;
     }
 
-    const newSquares = squares.slice();
-    newSquares[i] = current.nextPlayer;
+    squares[i] = currentBoardState.nextPlayer;
     const newBoardState = {
-      squares: newSquares,
-      nextPlayer: current.nextPlayer === 'X' ? 'O' : 'X',
+      squares: squares,
+      nextPlayer: currentBoardState.nextPlayer === 'X' ? 'O' : 'X',
     };
+    const nextMoveIndex = this.state.currentMoveIndex + 1;
     this.setState({
-      history: history.concat([newBoardState]),
+      history: history.slice(0, nextMoveIndex).concat([newBoardState]),
+      currentMoveIndex: nextMoveIndex,
     });
   }
 
-  jumpTo(moveNumber) {
-    const history = this.state.history;
-    const newHistory = history.slice(0, moveNumber + 1);
+  jumpTo(moveIndex) {
     this.setState({
-      history: newHistory,
+      currentMoveIndex: moveIndex,
     });
   }
 
   render() {
+    console.log(this.state);
+
     const history = this.state.history;
-    const current = history[history.length - 1];
+    const current = history[this.state.currentMoveIndex];
     const squares = current.squares.slice();
     const winner = this.calculateWinner(squares);
     const status = winner
       ? `Winner: ${winner}`
       : `Next player: ${current.nextPlayer}`;
 
-    console.log(history);
-
-    const moves = history.map((boardState, moveNumber) => {
-      const desc = moveNumber
-        ? `Go to move #${moveNumber}`
-        : 'Go to game start';
+    const moves = history.map((_, moveIndex) => {
+      const desc = moveIndex ? `Go to move #${moveIndex}` : 'Go to game start';
 
       return (
-        <li key={moveNumber}>
-          <button onClick={() => this.jumpTo(moveNumber)}>{desc}</button>
+        <li key={moveIndex}>
+          <button onClick={() => this.jumpTo(moveIndex)}>{desc}</button>
         </li>
       );
     });
