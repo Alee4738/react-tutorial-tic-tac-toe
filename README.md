@@ -1,16 +1,18 @@
 # Tic Tac Toe from React Tutorial
 
+![demo playing the game](demo.gif)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and follows the [Intro to React Tutorial](https://reactjs.org/tutorial/tutorial.html#lifting-state-up).
 
 ## Experience
 
 I tried to implement the app by myself as much as possible but found several core implementations difficult:
+
 - accepting that I had to lift state from class `Square` to class `Board` and then again from class `Board` to class `Game`
   - was trying to stick to OOP principles and let smaller classes carry their own state (e.g. passing the square index all the way up from `Square` to `Game` felt wrong. I wanted to isolate Game from that implementation detail)
 - passing a parameter (i.e. square index `i`) from component to `handleClick()`. I didn't think it would take the parameter
 
 VS Code's IntelliSense was kind of trash. It kept suggesting Emmet abbreviations (which were always wrong) and filled up with generic JS stuff instead of the methods I was looking for. Using TypeScript would probably have been a much better experience.
-  
 
 ## Lessons
 
