@@ -1,68 +1,23 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Tic Tac Toe from React Tutorial
 
-## Available Scripts
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and follows the [Intro to React Tutorial](https://reactjs.org/tutorial/tutorial.html#lifting-state-up).
 
-In the project directory, you can run:
+## Experience
 
-### `npm start`
+I tried to implement the app by myself as much as possible but found several core implementations difficult:
+- accepting that I had to lift state from class `Square` to class `Board` and then again from class `Board` to class `Game`
+  - was trying to stick to OOP principles and let smaller classes carry their own state (e.g. passing the square index all the way up from `Square` to `Game` felt wrong. I wanted to isolate Game from that implementation detail)
+- passing a parameter (i.e. square index `i`) from component to `handleClick()`. I didn't think it would take the parameter
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+VS Code's IntelliSense was kind of trash. It kept suggesting Emmet abbreviations (which were always wrong) and filled up with generic JS stuff instead of the methods I was looking for. Using TypeScript would probably have been a much better experience.
+  
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Lessons
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- React is a declarative framework; you modify state in a tightly controlled manner (i.e. `this.setState()`)
+- In a component, most methods have either one job or the other: `render()` the component or `handleClick()` (or any other `handle<event>`)
+  - In `render()`, you usually tie a component to an event listener that calls `handle<event>()`
+  - In `handle<event>()`, you usually call `this.setState()`, which will call `render()`
+  - e.g. `Game.jumpTo()` is a `handle<event>()` type of method
+  - `calculateWinner()` does not fall into either job category; it's just a helper function
+- Maybe isolating state is not as important in React as it is in other programming styles
