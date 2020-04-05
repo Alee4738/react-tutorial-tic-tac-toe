@@ -4,7 +4,14 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and follows the [Intro to React Tutorial](https://reactjs.org/tutorial/tutorial.html#lifting-state-up).
 
-## Experience
+## Usage
+
+```bash
+npm install
+npm start
+```
+
+## My Coding Experience
 
 I tried to implement the app by myself as much as possible but found several core implementations difficult:
 
